@@ -1,4 +1,7 @@
 import express from "express";
+import authRoutes from "./routes/auth.ts";
+import habitRoutes from "./routes/habits.ts";
+import userRoutes from "./routes/users.ts";
 
 // Create the express application
 // This would be the server, with an optional name, but conventionally named "app"
@@ -12,6 +15,10 @@ app.get("/health", (req, res) => {
     service: "Habit Tracker API",
   });
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/habits", habitRoutes);
+app.use("/api/users", userRoutes);
 
 // Default export
 export { app };
