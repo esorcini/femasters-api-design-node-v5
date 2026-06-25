@@ -1,4 +1,6 @@
 import { Router } from "express";
+// In the diagram: request --> middleware --> handler --> response
+//This module would be a "handler" for the API requests coming to the server
 
 const router = Router();
 
