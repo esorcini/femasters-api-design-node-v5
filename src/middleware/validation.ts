@@ -27,3 +27,49 @@ export const validateBody = (schema: ZodType<any>) => {
     }
   };
 };
+
+export const validateParams = (schema: ZodType<any>) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // There's no need to re-attach params to the request. Parameters are always strings that cannot be manipulated from the client (unlike a POST request for example)
+      schema.parse(req.params);
+      next();
+    } catch (e) {
+      if (e instanceof ZodError) {
+        return res.status(400).json({
+          error: "Invalid parameters",
+          /* This indicates where the validation error occurred */
+          details: e.issues.map((err) => ({
+            field: err.path.join("."),
+            message: err.message,
+          })),
+        });
+      }
+      // if it's not a schema validation error, throw it forward to be handled by the next function in the chain
+      next(e);
+    }
+  };
+};
+
+export const validateQuery = (schema: ZodType<any>) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // Query parameters are just keys inside a query object that is attached to the request
+      schema.parse(req.query);
+      next();
+    } catch (e) {
+      if (e instanceof ZodError) {
+        return res.status(400).json({
+          error: "Invalid query parameters",
+          /* This indicates where the validation error occurred */
+          details: e.issues.map((err) => ({
+            field: err.path.join("."),
+            message: err.message,
+          })),
+        });
+      }
+      // if it's not a schema validation error, throw it forward to be handled by the next function in the chain
+      next(e);
+    }
+  };
+};
