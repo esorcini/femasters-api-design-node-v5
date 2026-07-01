@@ -1,9 +1,9 @@
 {
-  "name": "node-dev",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "name": "node-postgre-dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
   "remoteUser": "dev",
+  "workspaceFolder": "/workspaces/femasters-api-design-node-v5",
   "customizations": {
     "vscode": {
       "extensions": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint"],
@@ -17,4 +17,5 @@
       }
     }
   }
+  // "postCreateCommand": "npm install --save-dev prettier eslint eslint-config-prettier"
 }

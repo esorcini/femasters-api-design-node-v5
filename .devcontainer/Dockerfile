@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \
     sudo \
     iputils-ping \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user
@@ -26,20 +27,6 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
 
 RUN echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME}
-
-# Set working directory
-RUN mkdir -p /app \
-        && chown -R ${USERNAME}:${USERNAME} /app
-
-WORKDIR /home/dev/app
-
-RUN npm config set update-notifier false \
-    && npm config set fund false
-
-RUN npm install --save-dev \
-  prettier \
-  eslint \
-  eslint-config-prettier
 
 # Switch to non-root user
 USER ${USERNAME}

@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+
+    command: sleep infinity
+
+    volumes:
+      - ..:/workspaces/femasters-api-design-node-v5
+
+    working_dir: /workspaces/femasters-api-design-node-v5
+
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17
+    env_file:
+      - ../.env.devcontainer
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
